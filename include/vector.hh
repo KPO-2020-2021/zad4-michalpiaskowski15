@@ -1,6 +1,5 @@
 #pragma once
 
-#include "size.hh"
 #include <iostream>
 template <int wymiar>
 class Vector {
@@ -30,17 +29,17 @@ public:
     
 
 };
+
 template <int wymiar>
 std::ostream &operator << (std::ostream &out, Vector <wymiar> const &tmp);
 template <int wymiar>
 std::istream &operator >> (std::istream &in, Vector <wymiar> &tmp);
 
-/******************************************************************************
- |  Konstruktor klasy Vector.                                                 |
- |  Argumenty:                                                                |
- |      Brak argumentow.                                                      |
- |  Zwraca:                                                                   |
- |      Tablice wypelniona wartoscia 0.                                       |
+
+/**
+ * @brief Construct a new Vector<wymiar>:: Vector object (zeroes)
+ * 
+ * @tparam wymiar 
  */
 template <int wymiar>
 Vector<wymiar>::Vector() {
@@ -49,13 +48,11 @@ Vector<wymiar>::Vector() {
     }
 }
 
-
-/******************************************************************************
- |  Konstruktor klasy Vector.                                                 |
- |  Argumenty:                                                                |
- |      tmp - Jednowymiarowa tablica typu double.                             |
- |  Zwraca:                                                                   |
- |      Tablice wypelniona wartosciami podanymi w argumencie.                 |
+/**
+ * @brief Construct a new Vector<wymiar>:: Vector object
+ * 
+ * @tparam wymiar 
+ * @param tmp 
  */
 template <int wymiar>
 Vector<wymiar>::Vector(double tmp[wymiar]) {
@@ -64,18 +61,15 @@ Vector<wymiar>::Vector(double tmp[wymiar]) {
     }
 }
 
-
-/******************************************************************************
- |  Realizuje dodawanie dwoch wektorow.                                       |
- |  Argumenty:                                                                |
- |      this - pierwszy skladnik dodawania,                                   |
- |      v - drugi skladnik dodawania.                                         |
- |  Zwraca:                                                                   |
- |      Sume dwoch skladnikow przekazanych jako wskaznik                      |
- |      na parametr.                                                          |
+/**
+ * @brief Addition of two new vectors.
+ * 
+ * @tparam wymiar 
+ * @param v 
+ * @return Vector<wymiar> (Sum)
  */
 template <int wymiar>
-Vector Vector<wymiar>::operator + (const Vector<wymiar> &v) {
+Vector<wymiar> Vector<wymiar>::operator + (const Vector<wymiar> &v) {
     Vector<wymiar> result;
     for (int i = 0; i < wymiar; i++) {
         result[i] = size[i] + v[i];
@@ -83,18 +77,15 @@ Vector Vector<wymiar>::operator + (const Vector<wymiar> &v) {
     return result;
 }
 
-
-/******************************************************************************
- |  Realizuje odejmowanie dwoch wektorow.                                     |
- |  Argumenty:                                                                |
- |      this - pierwszy skladnik odejmowania,                                 |
- |      v - drugi skladnik odejmowania.                                       |
- |  Zwraca:                                                                   |
- |      Roznice dwoch skladnikow przekazanych jako wskaznik                   |
- |      na parametr.                                                          |
+/**
+ * @brief Substraction of two vectors.
+ * 
+ * @tparam wymiar 
+ * @param v 
+ * @return Vector<wymiar> 
  */
 template <int wymiar>
-Vector Vector<wymiar>::operator - (const Vector &v) {
+Vector<wymiar> Vector<wymiar>::operator - (const Vector &v) {
     Vector<wymiar> result;
     for (int i = 0; i < wymiar; i++) {
         result[i] = size[i] -= v[i];
@@ -102,18 +93,15 @@ Vector Vector<wymiar>::operator - (const Vector &v) {
     return result;
 }
 
-
-/******************************************************************************
- |  Realizuje mnozenie wektora przez liczbe zmiennoprzecinkowa.               |
- |  Argumenty:                                                                |
- |      this - pierwszy skladnik mnozenia (wektor),                           |
- |      v - drugi skladnik mnozenia (liczba typu double).                     |
- |  Zwraca:                                                                   |
- |      Iloczyn dwoch skladnikow przekazanych jako wskaznik                   |
- |      na parametr.                                                          |
+/**
+ * @brief Multiplication of vector and floating point number.
+ * 
+ * @tparam wymiar 
+ * @param tmp 
+ * @return Vector<wymiar> 
  */
 template <int wymiar>
-Vector Vector<wymiar>::operator * (const double &tmp) {
+Vector<wymiar> Vector<wymiar>::operator * (const double &tmp) {
     Vector<wymiar> result;
     for (int i = 0; i < wymiar; i++) {
         result[i] = size[i] *= tmp;
@@ -121,18 +109,15 @@ Vector Vector<wymiar>::operator * (const double &tmp) {
     return result;
 }
 
-
-/******************************************************************************
- |  Realizuje dzielenie dwoch wektorow.                                       |
- |  Argumenty:                                                                |
- |      this - licznik dzielenia,                                             |
- |      v - mianownik dzielenia.                                              |
- |  Zwraca:                                                                   |
- |      Iloraz dwoch skladnikow przekazanych jako wskaznik                    |
- |      na parametr.                                                          |
+/**
+ * @brief Division of two vectors.
+ * 
+ * @tparam wymiar 
+ * @param tmp 
+ * @return Vector<wymiar> 
  */
 template <int wymiar>
-Vector Vector<wymiar>::operator / (const double &tmp) {
+Vector<wymiar> Vector<wymiar>::operator / (const double &tmp) {
     Vector<wymiar> result;
 
     for (int i = 0; i < wymiar; i++) {
@@ -142,14 +127,14 @@ Vector Vector<wymiar>::operator / (const double &tmp) {
     return result;
 }
 
-
-/******************************************************************************
- |  Funktor wektora.                                                          |
- |  Argumenty:                                                                |
- |      index - index wektora.                                                |
- |  Zwraca:                                                                   |
- |      Wartosc wektora w danym miejscu tablicy jako stala.                   |
+/**
+ * @brief Vector functor.
+ * 
+ * @tparam wymiar 
+ * @param index 
+ * @return const double& 
  */
+template <int wymiar>
 const double &Vector<wymiar>::operator [] (int index) const {
     if (index < 0 || index >= wymiar) {
         std::cerr << "Error: Wektor jest poza zasiegiem!" << std::endl;
@@ -157,13 +142,12 @@ const double &Vector<wymiar>::operator [] (int index) const {
     return size[index];
 }
 
-
-/******************************************************************************
- |  Funktor wektora.                                                          |
- |  Argumenty:                                                                |
- |      index - index wektora.                                                |
- |  Zwraca:                                                                   |
- |      Wartosc wektora w danym miejscu tablicy.                              |
+/**
+ * @brief  Vector functor.
+ * 
+ * @tparam wymiar 
+ * @param index 
+ * @return double& 
  */
 template <int wymiar>
 double &Vector<wymiar>::operator[](int index) {
@@ -171,11 +155,13 @@ double &Vector<wymiar>::operator[](int index) {
 }
 
 
-/******************************************************************************
- |  Przeciazenie operatora <<                                                 |
- |  Argumenty:                                                                |
- |      out - strumien wejsciowy,                                             |
- |      tmp - wektor.                                                         |
+/**
+ * @brief << operator overload (for Vector)
+ * 
+ * @tparam wymiar 
+ * @param out 
+ * @param tmp 
+ * @return std::ostream& 
  */
 template <int wymiar>
 std::ostream &operator << (std::ostream &out, Vector <wymiar> const &tmp) {
@@ -186,11 +172,13 @@ std::ostream &operator << (std::ostream &out, Vector <wymiar> const &tmp) {
 }
 
 
-/******************************************************************************
- |  Przeciazenie operatora >>                                                 |
- |  Argumenty:                                                                |
- |      in - strumien wyjsciowy,                                              |
- |      tmp - wektor.                                                         |
+/**
+ * @brief >> operator overload (for Vector)
+ * 
+ * @tparam wymiar 
+ * @param in 
+ * @param tmp 
+ * @return std::istream& 
  */
 template <int wymiar>
 std::istream &operator >> (std::istream &in, Vector <wymiar> &tmp) {

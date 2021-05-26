@@ -1,6 +1,6 @@
 #pragma once
 
-#include "size.hh"
+
 #include "vector.hh"
 #include <iostream>
 #include <cstdlib>
@@ -57,6 +57,13 @@ public:
             }
         }
 }*/
+
+/**
+ * @brief Identity matrix
+ * 
+ * @tparam wymiar 
+ * @param jajo 
+ */
 template <int wymiar>
 void Matrix<wymiar>::macierz_jednostkowa(Matrix<wymiar> jajo)
 {
@@ -80,6 +87,14 @@ void Matrix<wymiar>::macierz_jednostkowa(Matrix<wymiar> jajo)
         value[2][2] = 1;
     }
 }
+
+/**
+ * @brief Rotation matrix
+ * 
+ * @tparam wymiar 
+ * @param kat_stopnie 
+ * @param oms 
+ */
 template <int wymiar>
 void Matrix<wymiar>::macierz_obrotu(double kat_stopnie, char oms)
 {
@@ -140,16 +155,14 @@ void Matrix<wymiar>::macierz_obrotu(double kat_stopnie, char oms)
 }
 
 template <int wymiar>
-std::istream &operator>>(std::istream &in, Matrix &mat);
+std::istream &operator>>(std::istream &in, Matrix<wymiar> &mat);
 template <int wymiar>
-std::ostream &operator<<(std::ostream &out, Matrix const &mat);
+std::ostream &operator<<(std::ostream &out, Matrix<wymiar> const &mat);
 
-/******************************************************************************
- |  Konstruktor klasy Matrix.                                                 |
- |  Argumenty:                                                                |
- |      Brak argumentow.                                                      |
- |  Zwraca:                                                                   |
- |      Macierz wypelnione wartoscia 0.                                       |
+/**
+ * @brief Construct a new Matrix<wymiar>:: Matrix object (zeroes)
+ * 
+ * @tparam wymiar 
  */
  template <int wymiar>
 Matrix<wymiar>::Matrix() {
@@ -160,13 +173,11 @@ Matrix<wymiar>::Matrix() {
     }
 }
 
-
-/******************************************************************************
- |  Konstruktor parametryczny klasy Matrix.                                   |
- |  Argumenty:                                                                |
- |      tmp - dwuwymiarowa tablica z elementami typu double.                  |
- |  Zwraca:                                                                   |
- |      Macierz wypelniona wartosciami podanymi w argumencie.                 |
+/**
+ * @brief Construct a new Matrix<wymiar>:: Matrix object
+ * 
+ * @tparam wymiar 
+ * @param tmp 
  */
  template <int wymiar>
 Matrix<wymiar>::Matrix(double tmp[wymiar][wymiar]) {
@@ -177,17 +188,15 @@ Matrix<wymiar>::Matrix(double tmp[wymiar][wymiar]) {
     }
 }
 
-
-/******************************************************************************
- |  Realizuje mnozenie macierzy przez wektor.                                 |
- |  Argumenty:                                                                |
- |      this - macierz, czyli pierwszy skladnik mnozenia,                     |
- |      v - wektor, czyli drugi skladnik mnozenia.                            |
- |  Zwraca:                                                                   |
- |      Iloczyn dwoch skladnikow przekazanych jako wektor.                    |
+/**
+ * @brief Matrix and vector multiplication
+ * 
+ * @tparam wymiar 
+ * @param tmp 
+ * @return Vector<wymiar> 
  */
 template <int wymiar>
-Vector<wymiar> Matrix<wyiar>::operator * (Vector <wymiar> tmp) {
+Vector<wymiar> Matrix<wymiar>::operator * (Vector <wymiar> tmp) {
     Vector<wymiar> result;
     for (int i = 0; i < wymiar; i++) {
         for (int j = 0; j < wymiar; j++) {
@@ -198,16 +207,16 @@ Vector<wymiar> Matrix<wyiar>::operator * (Vector <wymiar> tmp) {
 }
 
 
-/******************************************************************************
- |  Funktor macierzy                                                          |
- |  Argumenty:                                                                |
- |      row - numer wiersza.                                                  |
- |      column - numer kolumny.                                               |
- |  Zwraca:                                                                   |
- |      Wartosc macierzy w danym miejscu tablicy.                             |
+/**
+ * @brief Matrix functor
+ * 
+ * @tparam wymiar 
+ * @param row 
+ * @param column 
+ * @return double& 
  */
  template <int wymiar>
-double &Matrix::operator()(unsigned int row, unsigned int column) {
+double &Matrix<wymiar>::operator()(unsigned int row, unsigned int column) {
 
     if (row >= wymiar) {
         std::cout << "Error: Macierz jest poza zasiegiem"; 
@@ -223,16 +232,18 @@ double &Matrix::operator()(unsigned int row, unsigned int column) {
 }
 
 
-/******************************************************************************
- |  Funktor macierzy                                                          |
- |  Argumenty:                                                                |
- |      row - numer wiersza.                                                  |
- |      column - numer kolumny.                                               |
- |  Zwraca:                                                                   |
- |      Wartosc macierzy w danym miejscu tablicy jako stala.                  |
+
+
+/**
+ * @brief Matrix functor
+ * 
+ * @tparam wymiar 
+ * @param row 
+ * @param column 
+ * @return const double& 
  */
  template <int wymiar>
-const double &Matrix<wymiar>::operator () (unsigned int row, unsigned int column) const {
+const double &Matrix<wymiar>::operator () (unsigned int row, unsigned int column) const {            
 
     if (row >= wymiar) {
         std::cout << "Error: Macierz jest poza zasiegiem";
@@ -247,13 +258,14 @@ const double &Matrix<wymiar>::operator () (unsigned int row, unsigned int column
     return value[row][column];
 }
 
-/******************************************************************************
- |  Przeciążenie dodawania macierzy                                           |
- |  Argumenty:                                                                |
- |      this - macierz, czyli pierwszy skladnik dodawania,                    |
- |      v - wektor, czyli drugi skladnik dodawania.                           |
- |  Zwraca:                                                                   |
- |      Macierz - iloczyn dwóch podanych macierzy.                            |
+
+
+/**
+ * @brief Matrix addition overload
+ * 
+ * @tparam wymiar 
+ * @param tmp 
+ * @return Matrix<wymiar> 
  */
  template <int wymiar>
 Matrix<wymiar> Matrix<wymiar>::operator + (Matrix<wymiar> tmp) {
@@ -266,11 +278,13 @@ Matrix<wymiar> Matrix<wymiar>::operator + (Matrix<wymiar> tmp) {
     return result;
 }
 
-/******************************************************************************
- |  Przeciazenie operatora >>                                                 |
- |  Argumenty:                                                                |
- |      in - strumien wyjsciowy,                                              |
- |      mat - macierz.                                                        |
+/**
+ * @brief >> operator overload (for Matrix)
+ * 
+ * @tparam wymiar 
+ * @param in 
+ * @param mat 
+ * @return std::istream& 
  */
  template <int wymiar>
 std::istream &operator>>(std::istream &in, Matrix<wymiar> &mat) {
@@ -283,11 +297,13 @@ std::istream &operator>>(std::istream &in, Matrix<wymiar> &mat) {
 }
 
 
-/******************************************************************************
- |  Przeciazenie operatora <<                                                 |
- |  Argumenty:                                                                |
- |      out - strumien wejsciowy,                                             |
- |      mat - macierz.                                                        |
+/**
+ * @brief << operator overload (for Matrix)
+ * 
+ * @tparam wymiar 
+ * @param out 
+ * @param mat 
+ * @return std::ostream& 
  */
  template <int wymiar>
 std::ostream &operator<<(std::ostream &out, const Matrix<wymiar> &mat) {
